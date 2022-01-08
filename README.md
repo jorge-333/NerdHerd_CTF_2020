@@ -2,22 +2,22 @@
 
 ## Table of Contents
 1. [Executive Summary](#Executive-Summary)
-	*[Assessment Overview](#Assessment-Overview)
-	*[Attack Summary](#Attack-Summary)
-2. [Attack Narrative]
-Reconnaissance
-Discovery
-Enumeration
-Scanning
-Vulnerability Assessment	4
-Exploitation	5
-Generate Reverse Shell Payload	6
-Generate Event Listener	7
-Attack in Action	7
-Data Identification	8
-Vulnerability Ratings	10
-Conclusion	11
-References	11
+	* [Assessment Overview](#Assessment-Overview)
+	* [Attack Summary](#Attack-Summary)
+2. [Attack Narrative](#Attack-Narrative)
+	* [Reconnaissance](#Reconnaissance
+		* [Discovery](#Discovery)
+	* [Enumeration](#Enumeration)
+		* [Scanning](#Scanning)
+		* [Vulnerability Assessment](#Vulnerability-Assessment)
+	* [Exploitation](#Exploitation)
+		* [Generate Reverse Shell Payload](#Generate-Reverse-Shell-Payload)
+		* [Generate Event Listener](#Generate-Event_Listener)
+		* [Attack in Action](#Attack-in-Action)
+		* [Data Identification](#Data-Identification)
+3. [Vulnerability Ratings](#Vulnerability-Ratings)
+4. [Conclusion](#Conclusion)
+5. [References](#Reference)
 
 ## Executive Summary
 ### Assessment Overview
@@ -40,22 +40,23 @@ This assessment took place on December 3rd, 2020 and it started with some basic 
 After the initial discovery of my target, a few different scans were run to enumerate what ports, services, OS versions, and vulnerabilities were present on the target. The results of this scans allowed me to identify some medium to critical level vulnerabilities in those services. Specifically, there was an outdated version of SMB running, which I was able to leverage to gain system access and full system privileges. 
 
 Once the target was compromised the contents of the SAM database was captured. I also discovered a sensitive Database backup file with a list of user hashes. I was unable to crack the hash file, but this information under the wrong hands with the right tools could potentially gain the credentials of a user list. 
-Attack Narrative
-Reconnaissance
+
+## Attack Narrative
+### Reconnaissance
 Tools Used: ARP-scan
-DISCOVERY
+#### Discovery
 I first attempted to identify the host that were up and running, so the scope of the attack could be established. To do this I joined the Zero-tier network and ran the ARP-scan tool to find out what devices were live in the local subnet. This scan populated a list of the IP-Addresses in that subnet allowing me to pinpoint the target (Figure 1).
 
  
 Figure 1 - ARP-scan reveals live host in local subnet.
-Enumeration
+### Enumeration
 Tools Used: Nmap, Nessus
-SCANNING
+#### Scanning
 After discovering the target’s address, I ran an Nmap scan to better understand the machine I was dealing with. This scan enumerated what ports, services, and OS versions were up and running (Figure 2). 
 
  
 Figure 2 - Nmap Scan
-VULNERABILITY ASSESSMENT
+#### Vulnerability Assessment
 After gaining a better understanding of the target. A vulnerability scan was done to determine what vulnerabilities would be found for the services running on the target. 
 
 This was done by running a Nessus Vulnerability Scan (Figure 3). 
@@ -74,12 +75,12 @@ The command below was used to run the SMB vulnerability scripts targeting port 1
 Figure 4 - Nmap Vulnerability Scan
 
 After analysis of the results from both scans, I decided that the SMB services running on the host was the best path to gain a foothold into the system. From the vulnerability reports I was able to determine that the system is vulnerable to the MS17-010 exploit which also doesn’t require SMB signing. This makes an exploit possible over SMB services. There is a well know exploit released in the Shadow Brokers NSA tool Disclosure that is called Eternal Blue. This exploit is known to exploit Microsoft’s implementation of the Server Message Block (SMB) protocol by sending a payload that allows the attacker to execute arbitrary code on the clients’ machine, giving access to the attacker.  
-Exploitation
+### Exploitation
 Tools Used: AutoBlue-MS17-010, Metasploit
 
 After some research and a few different attempts at exploiting this specific vulnerability, I was able to successfully gain access by utilizing the AutoBlue-MS17-010 exploit written by 3ndG4me. 
 
-GENERATE REVERSE SHELL PAYLOAD
+#### Generate Reverse Shell Payload
 To generate a reverse shell payload, I ran the shell preparation script that came with the exploit. Following the prompts, I set the listening host and ports. Then I choose the type of shell and payload. (Figure 5)
 
 •	Reverse Shell with msfvenom
@@ -94,7 +95,7 @@ Figure 5 - Reverse Shell Payload
 
 After running the script and following the prompt, a shellcode binary file named sc_all.bin is created. This executable is what I’m going to be using to execute the targets machine to gain access to it through meterpreter.
 
-GENERATE EVENT LISTENER
+#### Generate Event Listener
 Then I setup the event listener which handles and listens to all incoming connections on my machine. To do this I ran the listener preparation script that came with the exploit and followed the prompts to set the listening host, listening ports, shell type, and payload type. (Figure 6)
 
 •	LHOST to 10.242.63.69.
@@ -106,7 +107,7 @@ Then I setup the event listener which handles and listens to all incoming connec
  
 Figure 6 - Event Listener
 
-ATTACK IN ACTION
+#### Attack in Action
 After creating my executable and setting up the listener, it is now time to exploit the target. At this point I ran the eternal blue exploit (Figure 7) and we can see that the event listener picked up the connection and a session was established (Figure 8).
 
  
@@ -120,7 +121,7 @@ I connected to the session that I established and begin to engage the system thr
  
 Figure 9 - Meterpreter Session
 
-DATA IDENTIFICATION
+#### Data Identification
 I began to investigate the system for important organizational data that could be used against the company if there was a breach. First, I use the `hashdump` command to get the contents of the SAM database (Figure 10). The raw LANMAN/NTLM hashes can then be ran against a tool like John the Ripper to see if we can obtain login credentials.
 
  
@@ -140,50 +141,19 @@ The information in this user’s backup file could be extremely sensitive and sh
 
 
 
-Vulnerability Ratings
-
-
-Critical
-2
-	
-High
-2	
-Medium
-5	
-Low
-0	
-Info
-36
-
-rating	Description	Impact	Remediation
-Critical	MS11-030: Vulnerability in DNS Resolution Could Allow Remote CodeExecution	Arbitrary code can be executed on the remote host through the installed Windows DNS client.	Apply vendor patches.
-Critical	Unsupported Windows OS
-Lack of support implies that no new security patches for the product will be released by the vendor. As a result, it may contain security vulnerabilities.	Upgrade to a supported service pack or operating system.
-High	MS17-010: Security Update for Microsoft Windows SMB Server 	An unauthenticated, remote attacker can exploit these vulnerabilities, via a specially crafted packet, to execute arbitrary code.	Apply vendor patches.
-High	Unsupported Web Server Detection
-Lack of support implies that no new security patches for the product will be released by the vendor. As a result, it may contain security vulnerabilities.	Upgrade or remove the web server.
-Medium	MS16-047: Security Update for SAM and LSAD Remote Protocols	An attacker inside can use this vulnerability to elevate of privileges.
-	Apply vendor patches
-Medium	Chargen UDP Service Remote DoS
-An attacker may use it to set up an attack against this host, or against a third-party host using this host as a relay.	Disable the service.
-Medium	Echo Service Detection
-An attacker can utilize this service to set up denial of services attacks against the host.	Disable the service.
-Medium	Quote of the Day (QOTD) Service Detection
-This service can be used to send an IP address 	Disable the service.
-Medium	SMB Signing not required
-A remote attacker can exploit this to conduct man-in-the-middle attacks against the SMB server.	Enforce message signing in the host's configuration.
-Info	Available with the attached Nessus Report.
-	Look at the attach Nessus report for greater detail.
+### Vulnerability Ratings 
 
 
 
-Conclusion
+
+
+### Conclusion
 
 In conclusion, a series of medium to critical level vulnerabilities were found while running this assessment. I was able to compromise the client’s system by leveraging the Eternal Blue exploit that took advantage of an unpatched version of SMB running on the targets OS. It is critical that this vulnerabilities and misconfigurations are fixed and patched as soon as possible. Doing this will improve the systems security posture, helping it prevent any future security breaches.  
 
 
 
-References
+### References
 
 
 Casey Erdman, AutoBlue-MS17-010, (2017), GitHub repository, 
@@ -197,6 +167,6 @@ https://www.rapid7.com/db/modules/exploit/windows/smb/ms17_010_eternalblue/
 
 Nessus Research. (2020, June 09). Retrieved December 11, 2020, from https://www.tenable.com/research
 
-![image](https://user-images.githubusercontent.com/11736533/148654176-e3215c3b-29ec-4c3f-9105-b0cb638cd34c.png)
+
 
 
