@@ -26,13 +26,13 @@ This Assessment is for the NerdHerd Network, which was approached from the posit
 
 This security assessment is built on a four-stage process that includes the following steps:
 
-1.	Reconnaissance – In this stage we understand the goals of the assessment and the rules of engagement. We also blueprint the network and focus on discovering live host.
+1. Reconnaissance – In this stage we understand the goals of the assessment and the rules of engagement. We also blueprint the network and focus on discovering live host.
 
-2.	Enumeration – In this stage we identify potential vulnerabilities and the different ways to exploit them.
+2. Enumeration – In this stage we identify potential vulnerabilities and the different ways to exploit them.
 
-3.	Exploitation – Confirm potential vulnerabilities through exploitation and perform additional discovery upon new access. 
+3. Exploitation – Confirm potential vulnerabilities through exploitation and perform additional discovery upon new access. 
 
-4.	Reporting – Document all found vulnerabilities, exploits, and failed attempts
+4. Reporting – Document all found vulnerabilities, exploits, and failed attempts
 
 All of the tests performed are in accordance with the NIST SP 800-115 Technical Guide. 
 ### Attack Summary
