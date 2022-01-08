@@ -24,7 +24,7 @@ Capture The Flag - Assessment Report
 
 ## Executive Summary
 ### Assessment Overview
-I, Jorge Guzman took on the role of a malicious attacker to evaluate the posture of IFT-475s Final Exam system. By leveraging a series of high to critical level vulnerabilities, I was able to gain a foothold into the target as SYSTEM and gained access to sensitive organizational data. It is of the upmost importance that the reported vulnerabilities in this report be resolved as soon as possible.
+This Assessment is for the NerdHerd Network, which was approached from the position of a malicious attacker infiltrating the NerdHerd CTF Networ, by leveraging a series of high to critical level vulnerabilities. I was able to gain a foothold into the network and gain access to sensitive organizational information /(Flag). Through this assessment I was able to evaluate the posture of the network security and identify a series of vulnerabilities that should be resolved as soon as possible.
 
 This security assessment is built on a four-stage process that includes the following steps:
 
