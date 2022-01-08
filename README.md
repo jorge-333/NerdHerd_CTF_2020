@@ -52,7 +52,6 @@ I first attempted to identify the host that were up and running, so the scope of
  
 Figure 1 - ARP-scan reveals live host in local subnet.
 ### 2. Enumeration
----
 Tools Used: Nmap, Nessus
 #### - Scanning
 After discovering the target’s address, I ran an Nmap scan to better understand the machine I was dealing with. This scan enumerated what ports, services, and OS versions were up and running (Figure 2). 
