@@ -1,4 +1,4 @@
-# Nerdherd_CTF_2020
+# NerdHerd_CTF_2020
 
 IFT475 Security Analysis
 Capture The Flag - Assessment Report
