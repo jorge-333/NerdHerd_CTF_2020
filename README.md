@@ -1,11 +1,10 @@
 # CTF_IFT475_HerdNerd_2020
 
 ## Table of Contents
----
-1. [Executive Summary] (#Executive-Summary)
-* [Assessment Overview] (#Assessment Overview)
-Attack Summary
-Attack Narrative
+1. [Executive Summary](#Executive-Summary)
+	*[Assessment Overview](#Assessment-Overview)
+	*[Attack Summary](#Attack-Summary)
+2. [Attack Narrative]
 Reconnaissance
 Discovery
 Enumeration
@@ -21,7 +20,6 @@ Conclusion	11
 References	11
 
 ## Executive Summary
----
 ### Assessment Overview
 I, Jorge Guzman took on the role of a malicious attacker to evaluate the posture of IFT-475s Final Exam system. By leveraging a series of high to critical level vulnerabilities, I was able to gain a foothold into the target as SYSTEM and gained access to sensitive organizational data. It is of the upmost importance that the reported vulnerabilities in this report be resolved as soon as possible.
 
@@ -36,7 +34,7 @@ This security assessment is built on a four-stage process that includes the foll
 4.	Reporting – Document all found vulnerabilities, exploits, and failed attempts
 
 All of the tests performed are in accordance with the NIST SP 800-115 Technical Guide. 
-ATTACK SUMMARY
+### Attack Summary
 This assessment took place on December 3rd, 2020 and it started with some basic reconnaissance work of the internal network. The results provided me with the IP address of a specific host on the network, which was then established to be the target of this assessment.
 
 After the initial discovery of my target, a few different scans were run to enumerate what ports, services, OS versions, and vulnerabilities were present on the target. The results of this scans allowed me to identify some medium to critical level vulnerabilities in those services. Specifically, there was an outdated version of SMB running, which I was able to leverage to gain system access and full system privileges. 
