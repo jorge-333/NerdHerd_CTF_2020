@@ -1,7 +1,5 @@
 # NerdHerd_CTF_2020
-
-##### IFT475 Security Analysis
-##### Capture The Flag - Assessment Report
+##### Capture The Flag - Assessment Report | IFT475 - Security Analysis
 
 ## Table of Contents
 1. [Executive Summary](#Executive-Summary)
