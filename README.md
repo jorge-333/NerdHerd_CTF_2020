@@ -1,11 +1,11 @@
-# CTF_IFT475_HerdNerd_2020
+# IFT475_CTF_HerdNerd_2020
 
 ## Table of Contents
 1. [Executive Summary](#Executive-Summary)
 	* [Assessment Overview](#Assessment-Overview)
 	* [Attack Summary](#Attack-Summary)
 2. [Attack Narrative](#Attack-Narrative)
-	* [Reconnaissance](#Reconnaissance
+	* [Reconnaissance](#Reconnaissance)
 		* [Discovery](#Discovery)
 	* [Enumeration](#Enumeration)
 		* [Scanning](#Scanning)
